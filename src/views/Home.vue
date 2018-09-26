@@ -39,11 +39,11 @@ export default class Home extends Vue {
   public center: LatLng = L.latLng(36.70365959719456, -116.70364379882814);
   public marker: LatLng =  L.latLng(47.413220, -1.219482);
   public url: string = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
-  public attribution: string = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'; 
+  public attribution: string = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
   public stops: any = [];
 
-  mounted() {
-    this.stops = getStops().map( (s) => { return { coords: L.latLng(s.stopLat!,s.stopLon!), id: s.stopId}});
+  public mounted() {
+    this.stops = getStops().map( (s) => ({ coords: L.latLng(s.stopLat!, s.stopLon!), id: s.stopId}));
   }
 }
 </script>

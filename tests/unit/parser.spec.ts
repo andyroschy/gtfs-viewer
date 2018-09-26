@@ -15,7 +15,7 @@ describe('parser.ts', () => {
         let fileCount = 0;
         const totalFiles = 4;
         function readFinished() {
-            if(++fileCount === totalFiles) done();
+            if (++fileCount === totalFiles) { done(); }
         }
         fs.readFile('./src/data/gtfs-feed-sample/stops.txt', 'utf8', (err, data) => {
             stopsTxt = data;
@@ -65,14 +65,14 @@ describe('parser.ts', () => {
                 agencyId: 'DTA',
                 routeShortName: '10',
                 routeLongName: 'Airport - Bullfrog',
-                routeType: RouteType.Bus
+                routeType: RouteType.Bus,
             };
             const controlValue2: Route = {
                 routeId: 'BFC',
                 agencyId: 'DTA',
                 routeShortName: '20',
                 routeLongName: 'Bullfrog - Furnace Creek Resort',
-                routeType: RouteType.Bus
+                routeType: RouteType.Bus,
             };
             const routes = parseRoutes(routesTxt);
             expect(routes[0]).toMatchObject(controlValue1);
@@ -88,8 +88,8 @@ describe('parser.ts', () => {
                 tripId: 'AB1',
                 tripHeadsign: 'to Bullfrog',
                 directionId: false,
-                blockId:'1',
-                shapeId:''
+                blockId: '1',
+                shapeId: '',
             };
             const controlValue2: Trip = {
                 routeId: 'AB',
@@ -97,8 +97,8 @@ describe('parser.ts', () => {
                 tripId: 'AB2',
                 tripHeadsign: 'to Airport',
                 directionId: true,
-                blockId:'2',
-                shapeId:''
+                blockId: '2',
+                shapeId: '',
             };
             const trip = parseTrip(tripsTxt);
             expect(trip[0]).toMatchObject(controlValue1);
@@ -110,22 +110,22 @@ describe('parser.ts', () => {
         it('correctly parses stop times', () => {
             const controlValue1: StopTime = {
                 tripId: 'STBA',
-                arrivalTime:21600,
-                departureTime:21600,
-                stopId:'STAGECOACH',
-                stopSequence:1,
+                arrivalTime: 21600,
+                departureTime: 21600,
+                stopId: 'STAGECOACH',
+                stopSequence: 1,
             };
             const controlValue2: StopTime = {
                 tripId: 'STBA',
-                arrivalTime:22800,
-                departureTime:22800,
-                stopId:'BEATTY_AIRPORT',
-                stopSequence:2,
+                arrivalTime: 22800,
+                departureTime: 22800,
+                stopId: 'BEATTY_AIRPORT',
+                stopSequence: 2,
             };
             const stopTimes = parseStopTimes(stopTimesTxt);
             expect(stopTimes[0]).toMatchObject(controlValue1);
             expect(stopTimes[1]).toMatchObject(controlValue2);
         });
     });
-    
+
 });

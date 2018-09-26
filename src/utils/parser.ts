@@ -8,13 +8,12 @@ interface TypeMapping {
 }
 
 function HHMMSStoSecondsSinceMidnight(value: string): SecondsSinceMidnight {
-    const segments = value.split(':').map((x) => parseInt(x,10));
+    const segments = value.split(':').map((x) => parseInt(x, 10));
     return segments[0] * 3600 + segments[1] * 60 + segments[2];
 }
 
 function toBoolean(value: string ): boolean {
-    console.log(value);
-    return value == '0' ? false : true;
+    return value === '0' ? false : true;
 }
 
 function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
@@ -23,7 +22,7 @@ function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
         const entity: any = {};
         for (const column in r) {
             if (!r.hasOwnProperty(column)) { continue; }
-            const targetColumn = toPascalCase(column);            
+            const targetColumn = toPascalCase(column);
             const mapper = mappers.find((x) => x.columns.includes(targetColumn)) || { convert: undefined};
             const convert  = mapper.convert || ( (v: string) => v );
             // convert to values of types as defined in the mappers
@@ -43,30 +42,30 @@ export function parseStops(source: string): Stop[]  {
 export function parseRoutes(source: string): Route[]  {
     return parseEntity<Route>(source, [{
         columns: ['routeType'],
-        convert: parseFloat
+        convert: parseFloat,
     }]);
  }
 
- export function parseTrip(source: string): Trip[]  {
+export function parseTrip(source: string): Trip[]  {
     return parseEntity<Trip>(source, [{
-        columns: ['wheelchairAccessible','bikesAllowed'],
-        convert: (v) => parseInt(v,10)
-    },{
+        columns: ['wheelchairAccessible', 'bikesAllowed'],
+        convert: (v) => parseInt(v, 10),
+    }, {
         columns: ['directionId'],
-        convert: toBoolean
+        convert: toBoolean,
     }]);
  }
 
- export function parseStopTimes(source: string): StopTime[]  {
+export function parseStopTimes(source: string): StopTime[]  {
     return parseEntity<StopTime>(source, [{
-        columns: ['stopSequence','shapeDistTraveled','pickupType','dropOffType'],
-        convert: (v) => parseInt(v,10)
-    },{
-        columns: ['arrivalTime','departureTime'],
-        convert: HHMMSStoSecondsSinceMidnight
-    },{
-        columns:['timepoint'],
-        convert: toBoolean
+        columns: ['stopSequence', 'shapeDistTraveled', 'pickupType', 'dropOffType'],
+        convert: (v) => parseInt(v, 10),
+    }, {
+        columns: ['arrivalTime', 'departureTime'],
+        convert: HHMMSStoSecondsSinceMidnight,
+    }, {
+        columns: ['timepoint'],
+        convert: toBoolean,
     }]);
  }
 

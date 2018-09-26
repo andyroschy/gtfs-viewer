@@ -1,6 +1,6 @@
 import { parse, ParseConfig } from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
-import { Stop, Route } from '@/types/gtfs-types';
+import { Stop, Route, Trip } from '@/types/gtfs-types';
 
 interface TypeMapping {
  columns: string[];
@@ -17,7 +17,7 @@ function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
             const mapper = mappers.find((x) => x.columns.includes(targetColumn)) || { convert: undefined};
             const convert  = mapper!.convert || ( (v: string) => v );
             // convert to values of types as defined in the mappers
-            entity[targetColumn] = convert(r[column]);
+            entity[targetColumn] = r[column] !== undefined ? convert(r[column]) : undefined;
         }
         return entity;
     });
@@ -34,6 +34,16 @@ export function parseRoutes(source: string): Route[]  {
     return parseEntity<Route>(source, [{
         columns: ['routeType'],
         convert: parseFloat
+    }]);
+ }
+
+ export function parseTrip(source: string): Trip[]  {
+    return parseEntity<Trip>(source, [{
+        columns: ['wheelchairAccessible','bikesAllowed'],
+        convert: parseFloat
+    },{
+        columns:['directionId'],
+        convert: Boolean
     }]);
  }
 

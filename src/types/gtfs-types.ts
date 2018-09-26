@@ -54,4 +54,16 @@ export enum LocationType {
 	Stop = 0,
 	Station = 1
 }
-    
+
+export interface Trip {	
+	routeId: string
+	serviceId: string
+	tripId: string
+	tripHeadsign?: string
+	tripShortName?: string
+	directionId?: boolean
+	blockId?: string
+	shapeId?: string
+	wheelchairAccessible?: Avaliable
+	bikesAllowed?: Avaliable
+}

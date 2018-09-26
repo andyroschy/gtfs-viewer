@@ -26,8 +26,8 @@ describe('parser.ts', () => {
         });
     });
 
-    describe('parsestop', () => {
-        it('correctly parses sample data', () => {
+    describe('parseStops', () => {
+        it('correctly parses sample stops', () => {
             const controlValue1: Stop = {
                 stopId: 'FUR_CREEK_RES',
                 stopName: 'Furnace Creek Resort (Demo)',
@@ -47,7 +47,7 @@ describe('parser.ts', () => {
     });
 
     describe('parseRoute', () => {
-        it('correctly parses sample data', () => {
+        it('correctly parses sample routes', () => {
             const controlValue1: Route = {
                 routeId: 'AB',
                 agencyId: 'DTA',
@@ -67,4 +67,31 @@ describe('parser.ts', () => {
             expect(routes[1]).toMatchObject(controlValue2);
         });
     });
+
+    describe('parseTrip', () => {
+        it('correctly parses sample trips', () => {
+            const controlValue1: Route = {
+                routeId: 'AB',
+                agencyId: 'DTA',
+                routeShortName: '10',
+                routeLongName: 'Airport - Bullfrog',
+                routeType: RouteType.Bus
+            };
+            const controlValue2: Route = {
+                routeId: 'BFC',
+                agencyId: 'DTA',
+                routeShortName: '20',
+                routeLongName: 'Bullfrog - Furnace Creek Resort',
+                routeType: RouteType.Bus
+            };
+            const routes = parseRoutes(routesTxt);
+            expect(routes[0]).toMatchObject(controlValue1);
+            expect(routes[1]).toMatchObject(controlValue2);
+        });
+    });
+    
 });
+
+// route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id
+// AB,FULLW,AB1,to Bullfrog,0,1,
+// AB,FULLW,AB2,to Airport,1,2,

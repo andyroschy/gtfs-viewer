@@ -11,6 +11,12 @@ export enum Avaliable {
     No = 2,
 }
 
+export enum Direction {
+    NoInfo = 0,
+    Yes = 1,
+    No = 2,
+}
+
 
 export interface Stop  {
     stopId: string
@@ -56,14 +62,36 @@ export enum LocationType {
 }
 
 export interface Trip {	
-	routeId: string
-	serviceId: string
-	tripId: string
-	tripHeadsign?: string
-	tripShortName?: string
-	directionId?: boolean
-	blockId?: string
-	shapeId?: string
-	wheelchairAccessible?: Avaliable
-	bikesAllowed?: Avaliable
+	routeId: string;
+	serviceId: string;
+	tripId: string;
+	tripHeadsign?: string;
+	tripShortName?: string;
+	directionId?: boolean;
+	blockId?: string;
+	shapeId?: string;
+	wheelchairAccessible?: Avaliable;
+	bikesAllowed?: Avaliable;
+}
+
+export type SecondsSinceMidnight = number;
+
+export enum PickupType {
+	Regular = 0,
+	None = 1,
+	Phone = 2,
+	Driver = 3
+}
+
+export interface StopTime {	
+	tripId: string;
+	arrivalTime: SecondsSinceMidnight;
+	departureTime: SecondsSinceMidnight;
+	stopId: string;
+	stopSequence: number;
+	stopHeadsign?: string;
+	pickupType?: PickupType;
+	dropOffType?: PickupType;
+	shapeDistTraveled?: number;
+	timepoint?: boolean;
 }

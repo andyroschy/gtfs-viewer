@@ -1,5 +1,5 @@
-# gtfs-map-sample
-
+# gtfs-viewer
+Sandbox application to play around with GTFS feeds.
 ## Project setup
 ```
 npm install

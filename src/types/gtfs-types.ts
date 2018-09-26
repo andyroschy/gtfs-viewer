@@ -1,7 +1,7 @@
-//borrowed from: https://github.com/NotWoods/query-pouch-gtfs/blob/master/src/interfaces.ts
+// borrowed from: https://github.com/NotWoods/query-pouch-gtfs/blob/master/src/interfaces.ts
 export type GTFSName = 'agency' | 'calendar' | 'calendar_dates'
-	| 'fare_attributes' | 'fare_rules' | 'feed_info' | 'frequencies'
-	| 'routes' | 'shapes' | 'stops' | 'stop_times' | 'transfers' | 'trips';
+  | 'fare_attributes' | 'fare_rules' | 'feed_info' | 'frequencies'
+  | 'routes' | 'shapes' | 'stops' | 'stop_times' | 'transfers' | 'trips';
 
 
 export enum Avaliable {
@@ -11,7 +11,7 @@ export enum Avaliable {
 }
 
 export interface Stop  {
-    stopId: string
+    stopId: string;
     stopCode?: string | null;
     stopName: string | null;
     stopDesc?: string | null;
@@ -22,11 +22,11 @@ export interface Stop  {
     locationType?: LocationType |  null;
     parentStation?: string | null;
     stopTimeZone?: string | null;
-    wheelchairBoarding?: Avaliable | null
+    wheelchairBoarding?: Avaliable | null;
 }
 
 export enum LocationType {
-	Stop = 0,
-	Station = 1
+  Stop = 0,
+  Station = 1,
 }
-    
+

@@ -1,13 +1,13 @@
 import { parse, ParseConfig } from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
-import { Stop } from '@/types/gtfs-types';
+import { Stop, Route } from '@/types/gtfs-types';
 
 interface TypeMapping {
  columns: string[];
  convert: (v: string) => any;
 }
 
-function parseEntity<T>(source: string, mappers: TypeMapping[] = []): T[] {
+function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
 
     return parseCsv(source).map( (r) => {
         const entity: any = {};
@@ -24,12 +24,18 @@ function parseEntity<T>(source: string, mappers: TypeMapping[] = []): T[] {
 }
 
 export function parseStops(source: string): Stop[]  {
-   let s: Stop;
    return parseEntity<Stop>(source, [{
       columns: ['stopLat', 'stopLon'],
       convert: parseFloat,
   }]);
 }
+
+export function parseRoutes(source: string): Route[]  {
+    return parseEntity<Route>(source, [{
+        columns: ['routeType'],
+        convert: parseFloat
+    }]);
+ }
 
 function parseCsv(source: string): any[] {
     const config: ParseConfig = {

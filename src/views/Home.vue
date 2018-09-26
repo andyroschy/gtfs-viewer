@@ -5,7 +5,8 @@
         <l-marker :lat-lng="marker" :icon="leafIcon"></l-marker>
         <l-marker v-for="stop in stops" :key="stop.id" :lat-lng="stop.coords" :icon="leafIcon"></l-marker>
     </l-map>
-    <span>{{center}}</span>
+    <span>Center:{{center}}</span>
+    <span>Zoom{{zoom}}</span>
   </div>
 </template>
 
@@ -34,8 +35,8 @@ import { normalize } from 'path';
 })
 export default class Home extends Vue {
   public leafIcon = leaf;
-  public zoom: number = 13;
-  public center: LatLng = L.latLng(47.413220, -1.219482);
+  public zoom: number = 10;
+  public center: LatLng = L.latLng(36.70365959719456, -116.70364379882814);
   public marker: LatLng =  L.latLng(47.413220, -1.219482);
   public url: string = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   public attribution: string = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'; 

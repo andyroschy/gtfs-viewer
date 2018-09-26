@@ -12,6 +12,14 @@ module.exports = {
         './images/marker-icon-2x.png$': path.resolve(__dirname, './node_modules/leaflet/dist/images/marker-icon-2x.png'),
         './images/marker-shadow.png$': path.resolve(__dirname, './node_modules/leaflet/dist/images/marker-shadow.png')
       }
+    },
+    module: {
+      rules: [
+        {
+          test: /\.txt$/,
+          use: 'raw-loader'
+        }
+      ]
     }
   }
 }

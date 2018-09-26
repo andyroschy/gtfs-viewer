@@ -3,6 +3,7 @@
     <l-map :zoom="zoom" :center="center" class="main-map">
         <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
         <l-marker :lat-lng="marker" :icon="leafIcon"></l-marker>
+        <l-marker v-for="stop in stops" :key="stop.id" :lat-lng="stop.coords" :icon="leafIcon"></l-marker>
     </l-map>
     <span>{{center}}</span>
   </div>
@@ -12,7 +13,7 @@
 
   .main-map {
     height: 500px;
-    width: 500px;
+    width: 100%;
   }
 
 </style>
@@ -23,7 +24,8 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import {LMap, LMarker, LTileLayer} from 'vue2-leaflet';
 import L, { LatLng } from 'leaflet';
 import { leaf } from '@/leflet-icons';
-
+import { getStops } from '@/services/feedService';
+import { normalize } from 'path';
 
 @Component({
   components: {
@@ -37,6 +39,10 @@ export default class Home extends Vue {
   public marker: LatLng =  L.latLng(47.413220, -1.219482);
   public url: string = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   public attribution: string = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'; 
+  public stops: any = [];
 
+  mounted() {
+    this.stops = getStops().map( (s) => { return { coords: L.latLng(s.stopLat!,s.stopLon!), id: s.stopId}});
+  }
 }
 </script>

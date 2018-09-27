@@ -95,3 +95,16 @@ export interface StopTime {
   shapeDistTraveled?: number;
   timepoint?: boolean;
 }
+
+export interface Calendar {	
+	serviceId: string;
+	monday: boolean;
+	tuesday: boolean;
+	wednesday: boolean;
+	thursday: boolean;
+	friday: boolean;
+	saturday: boolean;
+	sunday: boolean;
+	startDate: Date;
+	endDate: Date;
+}

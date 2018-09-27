@@ -1,6 +1,6 @@
-import { Stop, Route, RouteType, Trip, StopTime } from '@/types/gtfs-types';
+import { Stop, Route, RouteType, Trip, StopTime, Calendar } from '@/types/gtfs-types';
 import fs, { read } from 'fs';
-import { parseStops, parseRoutes, parseStopTimes, parseTrip } from '@/utils/parser';
+import { parseStops, parseRoutes, parseStopTimes, parseTrip, parseCalendar } from '@/utils/parser';
 
 
 
@@ -8,12 +8,13 @@ let stopsTxt = '';
 let routesTxt = '';
 let tripsTxt = '';
 let stopTimesTxt = '';
+let calendarTxt = '';
 
 describe('parser.ts', () => {
 
     beforeAll((done) => {
         let fileCount = 0;
-        const totalFiles = 4;
+        const totalFiles = 5;
         function readFinished() {
             if (++fileCount === totalFiles) { done(); }
         }
@@ -34,6 +35,11 @@ describe('parser.ts', () => {
 
         fs.readFile('./src/data/gtfs-feed-sample/stop_times.txt', 'utf8', (err, data) => {
             stopTimesTxt = data;
+            readFinished();
+        });
+
+        fs.readFile('./src/data/gtfs-feed-sample/calendar.txt', 'utf8', (err, data) => {
+            calendarTxt = data;
             readFinished();
         });
     });
@@ -125,6 +131,38 @@ describe('parser.ts', () => {
             const stopTimes = parseStopTimes(stopTimesTxt);
             expect(stopTimes[0]).toMatchObject(controlValue1);
             expect(stopTimes[1]).toMatchObject(controlValue2);
+        });
+    });
+
+    describe('parse Calendar', () => {
+        it('correctly parses Calendar', () => {
+            const controlValue1: Calendar = {
+                serviceId: 'WE',
+                monday: false,
+                tuesday: false,
+                wednesday: false,
+                thursday: false, 
+                friday: false, 
+                saturday: true,
+                sunday: true,
+                startDate: new Date(2006,7,1),
+                endDate: new Date(2006, 7, 31)
+            };
+            const controlValue2: Calendar = {
+                serviceId: 'WD',
+                monday: true,
+                tuesday: true,
+                wednesday: true,
+                thursday: true, 
+                friday: true, 
+                saturday: false,
+                sunday: false,
+                startDate: new Date(2006,7,1),
+                endDate: new Date(2006, 7, 31)
+            };
+            const calendar = parseCalendar(calendarTxt);
+            expect(calendar[0]).toMatchObject(controlValue1);
+            expect(calendar[1]).toMatchObject(controlValue2);
         });
     });
 

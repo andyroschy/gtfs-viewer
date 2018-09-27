@@ -1,6 +1,6 @@
 import { parse, ParseConfig } from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
-import { Stop, Route, Trip, StopTime, SecondsSinceMidnight } from '@/types/gtfs-types';
+import { Stop, Route, Trip, StopTime, SecondsSinceMidnight, Calendar } from '@/types/gtfs-types';
 
 interface TypeMapping {
  columns: string[];
@@ -14,6 +14,14 @@ function HHMMSStoSecondsSinceMidnight(value: string): SecondsSinceMidnight {
 
 function toBoolean(value: string ): boolean {
     return value === '0' ? false : true;
+}
+
+function toDate(value: string): Date {
+    //date in format YYYYMMDD 
+    return new Date(        
+        parseInt(value.slice(0,4),10),        
+        parseInt(value.slice(4,6),10),
+        parseInt(value.slice(6,8),10));
 }
 
 function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
@@ -65,6 +73,16 @@ export function parseStopTimes(source: string): StopTime[]  {
         convert: HHMMSStoSecondsSinceMidnight,
     }, {
         columns: ['timepoint'],
+        convert: toBoolean,
+    }]);
+ }
+
+ export function parseCalendar(source: string): Calendar[]  {
+    return parseEntity<Calendar>(source, [{
+        columns: ['startDate', 'endDate'],
+        convert: toDate,
+    }, {
+        columns: ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
         convert: toBoolean,
     }]);
  }

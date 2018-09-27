@@ -1,9 +1,9 @@
 import { parse, ParseConfig } from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
-import { Stop, Route, Trip, StopTime, 
+import { Stop, Route, Trip, StopTime,
     SecondsSinceMidnight, Calendar, Shape } from '@/types/gtfs-types';
 
-interface TypeMapping { 
+interface TypeMapping {
  columns: string[];
  convert: (v: string) => any;
 }
@@ -18,11 +18,11 @@ function toBoolean(value: string ): boolean {
 }
 
 function toDate(value: string): Date {
-    //date in format YYYYMMDD 
-    return new Date(        
-        parseInt(value.slice(0,4),10),        
-        parseInt(value.slice(4,6),10),
-        parseInt(value.slice(6,8),10));
+    // date in format YYYYMMDD
+    return new Date(
+        parseInt(value.slice(0, 4), 10),
+        parseInt(value.slice(4, 6), 10),
+        parseInt(value.slice(6, 8), 10));
 }
 
 function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
@@ -78,19 +78,19 @@ export function parseStopTimes(source: string): StopTime[]  {
     }]);
  }
 
- export function parseCalendar(source: string): Calendar[]  {
+export function parseCalendar(source: string): Calendar[]  {
     return parseEntity<Calendar>(source, [{
         columns: ['startDate', 'endDate'],
         convert: toDate,
     }, {
-        columns: ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
+        columns: ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'],
         convert: toBoolean,
     }]);
  }
 
- export function parseShapes(source: string): Shape[]  {
+export function parseShapes(source: string): Shape[]  {
     return parseEntity<Shape>(source, [{
-        columns: ['shapePtLat', 'shapePtLon','shapeDistTraveled'],
+        columns: ['shapePtLat', 'shapePtLon', 'shapeDistTraveled'],
         convert: parseFloat,
     }, {
         columns: ['shapePtSequence'],

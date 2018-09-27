@@ -17,6 +17,17 @@ export enum Direction {
     No = 2,
 }
 
+export interface Agency {
+  agencyId?: string;
+  agencyName: string;
+  agencyUrl: string;
+  agencyTimezone: string;
+  agencyLang?: string;
+  agencyPhone?: string;
+  agencyFareUrl?: string;
+  agencyEmail?: string;
+}
+
 
 export interface Stop  {
     stopId: string;
@@ -96,23 +107,23 @@ export interface StopTime {
   timepoint?: boolean;
 }
 
-export interface Calendar {	
-	serviceId: string;
-	monday: boolean;
-	tuesday: boolean;
-	wednesday: boolean;
-	thursday: boolean;
-	friday: boolean;
-	saturday: boolean;
-	sunday: boolean;
-	startDate: Date;
-	endDate: Date;
+export interface Calendar {
+  serviceId: string;
+  monday: boolean;
+  tuesday: boolean;
+  wednesday: boolean;
+  thursday: boolean;
+  friday: boolean;
+  saturday: boolean;
+  sunday: boolean;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface Shape {
-	shapeId: string
-	shapePtLat: number
-	shapePtLon: number
-	shapePtSequence: number
-	shapeDistTraveled?: number
+  shapeId: string;
+  shapePtLat: number;
+  shapePtLon: number;
+  shapePtSequence: number;
+  shapeDistTraveled?: number;
 }

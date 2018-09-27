@@ -1,7 +1,7 @@
 import { Stop, StopTime, Trip, Route, Shape } from '@/types/gtfs-types';
 
 export interface GtfsFeed {
-    stops: Stop[];    
+    stops: Stop[];
     routes: Route[];
     stopTimes: StopTime[];
     trips: Trip[];
@@ -15,5 +15,5 @@ export interface RawGtfsFeed {
     routes: FeedEntry;
     stopTImes: FeedEntry;
     trips: FeedEntry;
-    shapes?: FeedEntry;    
+    shapes?: FeedEntry;
 }

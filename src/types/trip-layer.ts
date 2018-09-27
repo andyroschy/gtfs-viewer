@@ -1,8 +1,10 @@
-import { Polyline } from 'leaflet';
+import { LatLngLiteral } from 'leaflet';
 import GtfsLayer from '@/types/layer';
 import StopLayer from '@/types/stop-layer';
+import { StopTime } from '@/types/gtfs-types';
 
 export default class TripLayer extends GtfsLayer {
-    public geometry: L.LatLngLiteral[] | L.LatLng[] = [];
+    public geometry: LatLngLiteral[] = [];
     public stops: StopLayer[] = [];
+    public stopTimes: StopTime[] = [];
 }

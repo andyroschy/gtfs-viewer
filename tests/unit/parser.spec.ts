@@ -147,24 +147,24 @@ describe('parser.ts', () => {
                 monday: false,
                 tuesday: false,
                 wednesday: false,
-                thursday: false, 
-                friday: false, 
+                thursday: false,
+                friday: false,
                 saturday: true,
                 sunday: true,
-                startDate: new Date(2006,7,1),
-                endDate: new Date(2006, 7, 31)
+                startDate: new Date(2006, 7, 1),
+                endDate: new Date(2006, 7, 31),
             };
             const controlValue2: Calendar = {
                 serviceId: 'WD',
                 monday: true,
                 tuesday: true,
                 wednesday: true,
-                thursday: true, 
-                friday: true, 
+                thursday: true,
+                friday: true,
                 saturday: false,
                 sunday: false,
-                startDate: new Date(2006,7,1),
-                endDate: new Date(2006, 7, 31)
+                startDate: new Date(2006, 7, 1),
+                endDate: new Date(2006, 7, 31),
             };
             const calendar = parseCalendar(calendarTxt);
             expect(calendar[0]).toMatchObject(controlValue1);
@@ -175,18 +175,18 @@ describe('parser.ts', () => {
     describe('parse Shape', () => {
         it('correctly parses Shape', () => {
             const controlValue1: Shape = {
-                shapeId:'A_shp',
-                shapePtLat:37.61956,
-                shapePtLon:-122.48161,
-                shapePtSequence:1,
-                shapeDistTraveled:0
+                shapeId: 'A_shp',
+                shapePtLat: 37.61956,
+                shapePtLon: -122.48161,
+                shapePtSequence: 1,
+                shapeDistTraveled: 0,
             };
             const controlValue2: Shape = {
-                shapeId:'A_shp',
-                shapePtLat:37.64430,
-                shapePtLon:-122.41070,
-                shapePtSequence:2,
-                shapeDistTraveled:6.8310
+                shapeId: 'A_shp',
+                shapePtLat: 37.64430,
+                shapePtLon: -122.41070,
+                shapePtSequence: 2,
+                shapeDistTraveled: 6.8310,
             };
             const shapes = parseShapes(shapesTxt);
             expect(shapes[0]).toMatchObject(controlValue1);

@@ -87,9 +87,10 @@ function reduceSchedule(stopTime: StopTime[], stops: KeyMap<Stop>) {
         const layer = new StopLayer({lat: stop.stopLat, lng: stop.stopLon});
         layer.name = stop.stopName || '';
         layer.id = stop.stopId;
-        accumulated[current.tripId].stops[current.stopSequence] = layer;
-        accumulated[current.tripId].geometry[current.stopSequence] = layer.geometry;
-        accumulated[current.tripId].stopTimes[current.stopSequence] = current;
+        // index is one based, need to turn it to 0 based
+        accumulated[current.tripId].stops[current.stopSequence - 1] = layer;
+        accumulated[current.tripId].geometry[current.stopSequence - 1] = layer.geometry;
+        accumulated[current.tripId].stopTimes[current.stopSequence - 1] = current;
         return accumulated;
     }, {} as KeyMap<Schedule>);
 }
@@ -101,6 +102,7 @@ function reduceShapes(shapes: Shape[]): KeyMap<LatLng[]> {
         if (!accumulated[current.shapeId]) {
             accumulated[current.shapeId] = [];
         }
+        // index is one based, need to turn it to 0 based
         accumulated[current.shapeId][current.shapePtSequence] =
             L.latLng(current.shapePtLat, current.shapePtLon);
         return accumulated;

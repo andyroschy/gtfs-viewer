@@ -12,7 +12,6 @@
             <!-- Route layers -->
           <l-layer-group 
               v-for="route in agency.routes"
-              
               :key="route.id"
               :visible="route.visible"
               layerType="overlay"
@@ -23,12 +22,12 @@
                 :lat-lngs="route.geometry"
                 :visible="route.visible"/>
                 <!-- route stops -->
-              <!-- <l-marker
+              <l-marker
                 v-for="stop in route.stops"
                 :key="stop.id"
                 :visible="stop.visible"
                 :lat-lng="stop.geometry"
-                @click="alert(stop.name)" /> -->
+                @click="alert(stop.name)" />
           </l-layer-group>
         </l-layer-group>
        
@@ -52,7 +51,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import {LMap, LMarker, LTileLayer, LPolyline} from 'vue2-leaflet';
+import {LMap, LMarker, LTileLayer, LPolyline, LLayerGroup} from 'vue2-leaflet';
 import L, { LatLng } from 'leaflet';
 import { leaf } from '@/leflet-icons';
 import { getTestFeed, parseFeed } from '@/services/feed-service';
@@ -62,7 +61,7 @@ import AgencyLayer from '@/types/agency-layer';
 
 @Component({
   components: {
-    LMap, LMarker, LTileLayer, LPolyline
+    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup
   },
 })
 export default class Home extends Vue {
@@ -78,7 +77,6 @@ export default class Home extends Vue {
     let rawFeed = getTestFeed();
     let feed = parseFeed(rawFeed);
     this.agencies = getAgencies(feed);
-    debugger;
   }
 }
 </script>

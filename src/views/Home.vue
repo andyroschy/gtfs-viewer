@@ -26,7 +26,7 @@
                 v-for="stop in route.stops"
                 :key="stop.id"
                 :visible="stop.visible"
-                :lat-lng="stop.geometry"
+                :lat-lng="stop.latlng"
                 @click="alert(stop.name)" />
           </l-layer-group>
         </l-layer-group>

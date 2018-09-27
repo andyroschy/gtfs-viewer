@@ -14,7 +14,9 @@ export default class RouteLayer extends GtfsLayer {
     }
 
     public get stops(): StopLayer[] {
+        console.log('stops accessed');
         // for simplicity's sake, assume that all trips have the same stops
+        console.log(this.trips[0].stops);
         return this.trips[0].stops;
     }
 }

@@ -1,7 +1,7 @@
 import { parse, ParseConfig } from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
 import { Stop, Route, Trip, StopTime,
-    SecondsSinceMidnight, Calendar, Shape } from '@/types/gtfs-types';
+    SecondsSinceMidnight, Calendar, Shape, Agency } from '@/types/gtfs-types';
 
 interface TypeMapping {
  columns: string[];
@@ -96,6 +96,10 @@ export function parseShapes(source: string): Shape[]  {
         columns: ['shapePtSequence'],
         convert:  (v) => parseInt(v, 10),
     }]);
+ }
+
+ export function parseAgencies(source: string): Agency[] {
+     return parseEntity<Agency>(source);
  }
 
 function parseCsv(source: string): any[] {

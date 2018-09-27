@@ -1,4 +1,4 @@
-import { Stop, Route, RouteType, Trip, StopTime, Calendar, Shape } from '@/types/gtfs-types';
+import { Stop, Route, RouteType, Trip, StopTime, Calendar, Shape, Agency } from '@/types/gtfs-types';
 import fs, { read } from 'fs';
 import { parseStops, parseRoutes, parseStopTimes, parseTrip, parseCalendar, parseShapes } from '@/utils/parser';
 
@@ -10,12 +10,13 @@ let tripsTxt = '';
 let stopTimesTxt = '';
 let calendarTxt = '';
 let shapesTxt = '';
+let agenciesTxt = '';
 
 describe('parser.ts', () => {
 
     beforeAll((done) => {
         let fileCount = 0;
-        const totalFiles = 6;
+        const totalFiles = 7;
         function readFinished() {
             if (++fileCount === totalFiles) { done(); }
         }
@@ -46,6 +47,11 @@ describe('parser.ts', () => {
 
         fs.readFile('./src/data/gtfs-feed-sample/shapes.txt', 'utf8', (err, data) => {
             shapesTxt = data;
+            readFinished();
+        });
+
+        fs.readFile('./src/data/gtfs-feed-sample/agency.txt', 'utf8', (err, data) => {
+            agenciesTxt = data;
             readFinished();
         });
     });
@@ -191,6 +197,19 @@ describe('parser.ts', () => {
             const shapes = parseShapes(shapesTxt);
             expect(shapes[0]).toMatchObject(controlValue1);
             expect(shapes[1]).toMatchObject(controlValue2);
+        });
+    });
+
+    describe('parse Agency', () => {
+        it('correctly parses Agencies', () => {
+            const controlValue: Agency = {
+                agencyId: 'DTA',
+                agencyName: 'Demo Transit Authority',
+                agencyUrl: 'http://google.com',
+                agencyTimezone: 'America/Los_Angeles'
+            };
+            const agency = parseShapes(agenciesTxt);
+            expect(agency[0]).toMatchObject(controlValue);
         });
     });
 

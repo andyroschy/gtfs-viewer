@@ -3,7 +3,7 @@ import { toPascalCase } from '@/utils/string-utlis';
 import { Stop, Route, Trip, StopTime, 
     SecondsSinceMidnight, Calendar, Shape } from '@/types/gtfs-types';
 
-interface TypeMapping {
+interface TypeMapping { 
  columns: string[];
  convert: (v: string) => any;
 }

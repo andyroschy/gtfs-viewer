@@ -1,6 +1,6 @@
-import { Stop, Route, RouteType, Trip, StopTime, Calendar } from '@/types/gtfs-types';
+import { Stop, Route, RouteType, Trip, StopTime, Calendar, Shape } from '@/types/gtfs-types';
 import fs, { read } from 'fs';
-import { parseStops, parseRoutes, parseStopTimes, parseTrip, parseCalendar } from '@/utils/parser';
+import { parseStops, parseRoutes, parseStopTimes, parseTrip, parseCalendar, parseShapes } from '@/utils/parser';
 
 
 
@@ -9,12 +9,13 @@ let routesTxt = '';
 let tripsTxt = '';
 let stopTimesTxt = '';
 let calendarTxt = '';
+let shapesTxt = '';
 
 describe('parser.ts', () => {
 
     beforeAll((done) => {
         let fileCount = 0;
-        const totalFiles = 5;
+        const totalFiles = 6;
         function readFinished() {
             if (++fileCount === totalFiles) { done(); }
         }
@@ -40,6 +41,11 @@ describe('parser.ts', () => {
 
         fs.readFile('./src/data/gtfs-feed-sample/calendar.txt', 'utf8', (err, data) => {
             calendarTxt = data;
+            readFinished();
+        });
+
+        fs.readFile('./src/data/gtfs-feed-sample/shapes.txt', 'utf8', (err, data) => {
+            shapesTxt = data;
             readFinished();
         });
     });
@@ -163,6 +169,28 @@ describe('parser.ts', () => {
             const calendar = parseCalendar(calendarTxt);
             expect(calendar[0]).toMatchObject(controlValue1);
             expect(calendar[1]).toMatchObject(controlValue2);
+        });
+    });
+
+    describe('parse Shape', () => {
+        it('correctly parses Shape', () => {
+            const controlValue1: Shape = {
+                shapeId:'A_shp',
+                shapePtLat:37.61956,
+                shapePtLon:-122.48161,
+                shapePtSequence:1,
+                shapeDistTraveled:0
+            };
+            const controlValue2: Shape = {
+                shapeId:'A_shp',
+                shapePtLat:37.64430,
+                shapePtLon:-122.41070,
+                shapePtSequence:2,
+                shapeDistTraveled:6.8310
+            };
+            const shapes = parseShapes(shapesTxt);
+            expect(shapes[0]).toMatchObject(controlValue1);
+            expect(shapes[1]).toMatchObject(controlValue2);
         });
     });
 

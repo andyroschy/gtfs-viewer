@@ -1,6 +1,7 @@
 import { parse, ParseConfig } from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
-import { Stop, Route, Trip, StopTime, SecondsSinceMidnight, Calendar } from '@/types/gtfs-types';
+import { Stop, Route, Trip, StopTime, 
+    SecondsSinceMidnight, Calendar, Shape } from '@/types/gtfs-types';
 
 interface TypeMapping {
  columns: string[];
@@ -84,6 +85,16 @@ export function parseStopTimes(source: string): StopTime[]  {
     }, {
         columns: ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'],
         convert: toBoolean,
+    }]);
+ }
+
+ export function parseShapes(source: string): Shape[]  {
+    return parseEntity<Shape>(source, [{
+        columns: ['shapePtLat', 'shapePtLon','shapeDistTraveled'],
+        convert: parseFloat,
+    }, {
+        columns: ['shapePtSequence'],
+        convert:  (v) => parseInt(v, 10),
     }]);
  }
 

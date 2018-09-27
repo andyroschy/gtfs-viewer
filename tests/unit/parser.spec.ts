@@ -206,7 +206,7 @@ describe('parser.ts', () => {
                 agencyId: 'DTA',
                 agencyName: 'Demo Transit Authority',
                 agencyUrl: 'http://google.com',
-                agencyTimezone: 'America/Los_Angeles'
+                agencyTimezone: 'America/Los_Angeles',
             };
             const agency = parseShapes(agenciesTxt);
             expect(agency[0]).toMatchObject(controlValue);

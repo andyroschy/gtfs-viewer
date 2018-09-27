@@ -5,8 +5,32 @@ import L, { Polyline, LatLng, LatLngTuple, LatLngExpression, latLng, LatLngLiter
 import RouteLayer from '@/types/route-layer';
 import TripLayer from '@/types/trip-layer';
 import StopLayer from '@/types/stop-layer';
+import AgencyLayer from '@/types/agency-layer';
 
-export function getRouteLayers(feed: GtfsFeed) {
+export function getAgencies(feed: GtfsFeed) {
+    const routes = getRouteLayers(feed);
+    const agencyLayers = feed.agencies.map( (a) => {
+        const layer = new AgencyLayer();
+        layer.id = a.agencyId || '';
+        layer.name = a.agencyName;
+        layer.description = a.agencyUrl;
+        return layer;
+    });
+    // if single agency
+    if (agencyLayers.length === 1) {
+        agencyLayers[0].routes = routes;
+    } else {
+        // since arr to keymap maps uses the same references in the array
+        // this actually mutates the layer array
+        const indexedAgencies = arrToKeyMap(agencyLayers, (k) => k.id);
+        for (const route of routes) {
+            indexedAgencies[route.agencyId].routes.push(route);
+        }
+    }
+    return agencyLayers;
+}
+
+function getRouteLayers(feed: GtfsFeed): RouteLayer[] {
     const indexedStops = arrToKeyMap(feed.stops, (s) => s.stopId);
     const routeLayers = feed.routes.map( (x) => {
         const routeLayer = new RouteLayer();
@@ -14,6 +38,7 @@ export function getRouteLayers(feed: GtfsFeed) {
         routeLayer.name = x.routeLongName;
         routeLayer.description = x.routeDesc || '';
         routeLayer.color = x.routeColor || '';
+        routeLayer.agencyId = x.agencyId || '';
         return routeLayer;
     });
     const shapes = reduceShapes(feed.shapes);
@@ -24,6 +49,7 @@ export function getRouteLayers(feed: GtfsFeed) {
         const tripLayer = mapToTripLayer(trip, shapes, schedule);
         indexedRouteLayers[trip.routeId].trips.push(tripLayer);
     }
+    return routeLayers;
 }
 
 function mapToTripLayer(trip: Trip, shapes: KeyMap<LatLng[]>, schedule: KeyMap<Schedule>): TripLayer {

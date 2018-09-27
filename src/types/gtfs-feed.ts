@@ -1,6 +1,7 @@
-import { Stop, StopTime, Trip, Route, Shape } from '@/types/gtfs-types';
+import { Stop, StopTime, Trip, Route, Shape, Agency } from '@/types/gtfs-types';
 
 export interface GtfsFeed {
+    agencies: Agency[];
     stops: Stop[];
     routes: Route[];
     stopTimes: StopTime[];

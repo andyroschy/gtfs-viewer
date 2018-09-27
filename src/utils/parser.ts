@@ -98,7 +98,7 @@ export function parseShapes(source: string): Shape[]  {
     }]);
  }
 
- export function parseAgencies(source: string): Agency[] {
+export function parseAgencies(source: string): Agency[] {
      return parseEntity<Agency>(source);
  }
 

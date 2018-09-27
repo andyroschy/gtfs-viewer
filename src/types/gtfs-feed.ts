@@ -12,9 +12,10 @@ export interface GtfsFeed {
 export type FeedEntry = string | File;
 
 export interface RawGtfsFeed {
+    agencies: FeedEntry;
     stops: FeedEntry;
     routes: FeedEntry;
-    stopTImes: FeedEntry;
+    stopTimes: FeedEntry;
     trips: FeedEntry;
     shapes?: FeedEntry;
 }

@@ -72,9 +72,6 @@ export async function parseStopTimes(source: string | File): Promise<StopTime[]>
         columns: ['stopSequence', 'shapeDistTraveled', 'pickupType', 'dropOffType'],
         convert: (v) => parseInt(v, 10),
     }, {
-        columns: ['arrivalTime', 'departureTime'],
-        convert: HHMMSStoSecondsSinceMidnight,
-    }, {
         columns: ['timepoint'],
         convert: toBoolean,
     }]);

@@ -96,8 +96,8 @@ export enum PickupType {
 
 export interface StopTime {
   tripId: string;
-  arrivalTime: SecondsSinceMidnight;
-  departureTime: SecondsSinceMidnight;
+  arrivalTime: string;
+  departureTime: string;
   stopId: string;
   stopSequence: number;
   stopHeadsign?: string;

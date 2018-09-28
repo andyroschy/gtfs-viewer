@@ -38,7 +38,7 @@
     color: #EEEEEE;
     text-shadow: 1px 1px rgba(0,0,0, 0.4);
     vertical-align: middle;
-    background: #66ccff;    
+    background: #66ccff;
     width: 100%;    
     margin: 0px;
     text-align: center;

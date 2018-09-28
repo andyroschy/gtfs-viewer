@@ -131,15 +131,15 @@ describe('parser.ts', () => {
         it('correctly parses stop times', async (done) => {
             const controlValue1: StopTime = {
                 tripId: 'STBA',
-                arrivalTime: 21600,
-                departureTime: 21600,
+                arrivalTime: '21600',
+                departureTime: '21600',
                 stopId: 'STAGECOACH',
                 stopSequence: 1,
             };
             const controlValue2: StopTime = {
                 tripId: 'STBA',
-                arrivalTime: 22800,
-                departureTime: 22800,
+                arrivalTime: '22800',
+                departureTime: '22800',
                 stopId: 'BEATTY_AIRPORT',
                 stopSequence: 2,
             };

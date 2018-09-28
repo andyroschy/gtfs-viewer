@@ -34,7 +34,8 @@
                       :icon="markerIcon"
                        >
                         <l-popup  >
-                          {{ stop.name }}
+                          <StopDetails :stop="stop" :schedule="route.getStopSchedule(stop)" > </StopDetails>
+                          
                         </l-popup>
                       </l-marker>
                  </l-layer-group>
@@ -63,12 +64,12 @@ import { getTestFeed, parseFeed, getFeedFromFile } from '@/services/feed-service
 import { getAgencies } from '@/services/layer-service';
 import { normalize } from 'path';
 import AgencyLayer from '@/types/agency-layer';
-
+import StopDetails  from '@/views/components/StopDetails.vue';
 
 
 @Component({
   components: {
-    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup, LPopup 
+    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup, LPopup, StopDetails
   },
 })
 export default class MainMap extends Vue {

@@ -8,7 +8,7 @@ export default class RouteLayer extends GtfsLayer {
     public color: HexCode = '000000';
     public trips: TripLayer[] = [];
     public agencyId: string = '';
-    public stopsVisible: boolean = false;
+    public stopsVisible: boolean = true;
     public get geometry(): LatLngLiteral[] {
         // for simplicity's sake, assume that all trips have the same geomtry
         return this.trips[0].geometry;

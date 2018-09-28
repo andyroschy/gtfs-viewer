@@ -1,5 +1,5 @@
 <template>
-  <l-map   ref="map" :zoom="zoom" :center="center" class="main-map">
+  <l-map   ref="map" :zoom.sync="zoom" :center="center" class="main-map">
         <l-tile-layer :url="baseLayer" :attribution="attribution"></l-tile-layer>
         <!-- Agency layers -->
         <l-layer-group
@@ -23,7 +23,7 @@
                 :visible="route.visible"/>
                 <!-- route stops -->
                  <l-layer-group                                     
-                  :visible="route.stopsVisible"
+                  :visible="route.stopsVisible && zoom > 13"
                   layerType="overlay"
                   :name="route.name + '-stops'" >
                      <l-marker

@@ -19,9 +19,8 @@
 
 <style scoped>
 
-  .main-map {
-    height: 500px;
-    width: 100%;
+  .layer-group {
+    overflow: auto;
   }
 
 </style>

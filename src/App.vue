@@ -1,10 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <home></home>
   </div>
 </template>
 
@@ -15,6 +11,13 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  padding: 0px;
+  margin: 0px;
 }
 #nav {
   padding: 30px;
@@ -27,3 +30,18 @@
   }
 }
 </style>
+
+<script lang="ts">
+import Home  from '@/views/Home.vue';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
+
+@Component({
+  components: {
+     Home
+  },
+})
+export default class App extends Vue {  
+  
+}
+</script>

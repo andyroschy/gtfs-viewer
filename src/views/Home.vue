@@ -1,16 +1,39 @@
 <template>
   <div class="main">
-    <layer-list :agencies="agencies" ></layer-list>
-    <main-map :agencies="agencies"></main-map>
-    <input type="file" @change="fileSelected" multiple/>
-    <span>{{loadStatus}}</span>
-    <br/>
-    <span>Center:{{center}}</span>
-    <span>Zoom{{zoom}}</span>
+    <layer-list class="menu" :agencies="agencies" ></layer-list>
+    <main-map class="map" :agencies="agencies"></main-map>
+    <footer>
+      <input type="file" @change="fileSelected" multiple/>
+      <span>{{loadStatus}}</span>
+      <br/>
+    </footer>
   </div>
 </template>
 
 <style scoped>
+ 
+  .main {
+    display: grid;
+    grid-template: 
+                  "nav  main" 1fr 
+                  "nav  foot " 100px 
+                 / 330px 1fr;
+    grid-gap: 0px;
+    padding: 0px;
+    height: 100%;
+  }
+
+  .map {
+    grid-area: main;    
+  }
+
+  footer {
+    grid-area: foot
+  }
+
+  .menu {
+    grid-area: nav;
+  }
 
 </style>
 

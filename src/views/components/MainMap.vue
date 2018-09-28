@@ -1,5 +1,5 @@
 <template>
-  <l-map :zoom="zoom" :center="center" class="main-map">
+  <l-map  ref="map" :zoom="zoom" :center="center" class="main-map">
         <l-tile-layer :url="baseLayer" :attribution="attribution"></l-tile-layer>
         <!-- Agency layers -->
         <l-layer-group
@@ -35,10 +35,6 @@
 
 <style scoped>
 
-  .main-map {
-    height: 500px;
-    width: 100%;
-  }
 
 </style>
 
@@ -52,6 +48,7 @@ import { getTestFeed, parseFeed, getFeedFromFile } from '@/services/feed-service
 import { getAgencies } from '@/services/layer-service';
 import { normalize } from 'path';
 import AgencyLayer from '@/types/agency-layer';
+import { debug, debuglog } from 'util';
 
 
 @Component({
@@ -74,6 +71,16 @@ export default class MainMap extends Vue {
   }
 
   public created() {
+  }
+
+  public mounted() {
+    const self = this;
+    Vue.nextTick( () => {      
+      setTimeout( () => {
+        let map: any = self.$refs.map;
+        map.mapObject.invalidateSize();
+      });
+    })
   }
 
 }

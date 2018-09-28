@@ -53,9 +53,8 @@
   }
 
   .layer-group {
-
-    
-    
+    display: flex;
+    flex-direction: column;
     text-align: left;
     line-height: 24px;
     z-index: 999;
@@ -65,8 +64,8 @@
       0 1px 20px 0 rgba(0,0,0,.12);
 
     ul {
+      flex: 1;
       margin: 0px;
-      height: 100%;
       overflow: auto;
       padding-left: 15px;
       list-style: none;

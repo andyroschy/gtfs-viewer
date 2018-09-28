@@ -1,5 +1,5 @@
 <template>
-  <l-map  ref="map" :zoom="zoom" :center="center" class="main-map">
+  <l-map   ref="map" :zoom="zoom" :center="center" class="main-map">
         <l-tile-layer :url="baseLayer" :attribution="attribution"></l-tile-layer>
         <!-- Agency layers -->
         <l-layer-group
@@ -18,23 +18,34 @@
               <!-- route line -->
               <l-polyline
                 :key="route.id"
+                :color="'#' + route.color"
                 :lat-lngs="route.geometry"
                 :visible="route.visible"/>
                 <!-- route stops -->
-              <l-marker
-                v-for="stop in route.stops"
-                :key="stop.id"
-                :visible="stop.visible"
-                :lat-lng="stop.latlng"
-                :icon="markerIcon"
-                @click="stopClicked(stop.name)" />
+                 <l-layer-group                                     
+                  :visible="route.stopsVisible"
+                  layerType="overlay"
+                  :name="route.name + '-stops'" >
+                     <l-marker
+                      v-for="stop in route.stops"
+                      :key="stop.id"
+                      :visible="stop.visible"
+                      :lat-lng="stop.latlng"
+                      :icon="markerIcon"
+                      @click="stopClicked(stop.name)" />
+                 </l-layer-group>
+           
           </l-layer-group>
         </l-layer-group>
     </l-map>
 </template>
 
 <style scoped>
-
+  .main-map {
+        box-shadow: 
+        rgba(0, 0, 0, 0.2) 0px 3px 5px -2px, 
+        rgba(0, 0, 0, 0.12) 0px 1px 2px 0px;
+  }
 
 </style>
 

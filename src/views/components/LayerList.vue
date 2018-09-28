@@ -7,13 +7,13 @@
           <span @click="toggleLayer(agency)"  class="layer-name" >{{agency.name}} </span>     
           <!-- routes of the agency -->
           <ul class="inner" :class="{'open': agency.isOpen}" >            
-            <li class="sub-menu-header">Routes:</li>
+            <li class="sub-menu-header">Routes:</li>            
             <li   v-for="route of agency.routes" :key="route.id">
-              <input type="checkbox" v-model="route.visible">
+              <input type="checkbox" v-model="route.visible" :disabled="!agency.visible" >              
               <span @click="toggleLayer(route)" class="layer-name" >{{route.name}}</span>
               <!-- stops on the route -->
               <ul class="inner" :class="{'open': route.isOpen}"> 
-                <li class="sub-menu-header">Stops:</li>
+                <li class="sub-menu-header"> <input type="checkbox" :disabled="!route.visible" v-model="route.stopsVisible"> Stops:</li>
                 <li v-for="stop of route.stops" :key="stop.id">{{stop.name}}</li>
               </ul>
             </li>
@@ -28,7 +28,12 @@
   .layer-group {
     overflow: auto;
     text-align: left;
-    line-height: 24px; 
+    line-height: 24px;
+    z-index: 999;
+    box-shadow: 
+      0 3px 20px -2px rgba(0,0,0,.2), 
+      0 2px 20px 0 rgba(0,0,0,.14), 
+      0 1px 20px 0 rgba(0,0,0,.12);
     ul {
       padding-left: 15px;
       list-style: none;

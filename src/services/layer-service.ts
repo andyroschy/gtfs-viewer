@@ -37,7 +37,7 @@ function getRouteLayers(feed: GtfsFeed): RouteLayer[] {
         routeLayer.id = x.routeId;
         routeLayer.name = x.routeLongName;
         routeLayer.description = x.routeDesc || '';
-        routeLayer.color = x.routeColor || '';
+        routeLayer.color = x.routeColor || routeLayer.color;
         routeLayer.agencyId = x.agencyId || '';
         return routeLayer;
     });

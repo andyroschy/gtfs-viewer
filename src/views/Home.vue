@@ -1,5 +1,6 @@
 <template>
   <div class="main">
+    <layer-list :agencies="agencies" ></layer-list>
     <l-map :zoom="zoom" :center="center" class="main-map">
         <l-tile-layer :url="baseLayer" :attribution="attribution"></l-tile-layer>
         <!-- Agency layers -->
@@ -54,6 +55,7 @@
 
 
 <script lang="ts">
+import LayerList  from '@/views/components/LayerList.vue';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import {LMap, LMarker, LTileLayer, LPolyline, LLayerGroup} from 'vue2-leaflet';
 import L, { LatLng, imageOverlay } from 'leaflet';
@@ -64,9 +66,10 @@ import { normalize } from 'path';
 import AgencyLayer from '@/types/agency-layer';
 import jszip from 'jszip'
 
+
 @Component({
   components: {
-    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup
+    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup, LayerList
   },
 })
 export default class Home extends Vue {

@@ -3,4 +3,5 @@ export default class GtfsLayer {
     public name: string = '';
     public description?: string = '';
     public visible: boolean = true;
+    public isOpen: boolean = true;
 }

@@ -1,5 +1,5 @@
 import L, { LatLngLiteral } from 'leaflet';
-import GtfsLayer from '@/types/layer';
+import GtfsLayer from '@/types/gtfs-layer';
 
 export default class StopLayer extends GtfsLayer {
 

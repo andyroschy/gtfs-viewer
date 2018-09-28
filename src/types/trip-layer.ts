@@ -1,5 +1,5 @@
 import { LatLngLiteral } from 'leaflet';
-import GtfsLayer from '@/types/layer';
+import GtfsLayer from '@/types/gtfs-layer';
 import StopLayer from '@/types/stop-layer';
 import { StopTime } from '@/types/gtfs-types';
 

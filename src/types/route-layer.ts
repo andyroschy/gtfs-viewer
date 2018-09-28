@@ -1,6 +1,6 @@
 import L, {LatLng, Polyline, LatLngLiteral, LatLngExpression} from 'leaflet';
 import { HexCode } from '@/types/gtfs-types';
-import GtfsLayer from '@/types/layer';
+import GtfsLayer from '@/types/gtfs-layer';
 import TripLayer from '@/types/trip-layer';
 import StopLayer from '@/types/stop-layer';
 

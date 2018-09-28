@@ -1,6 +1,6 @@
 import L from 'leaflet';
 
-export const leaf = L.icon({
+export const marker = L.icon({
     iconUrl: require('@/assets/marker-icon.png'),
     shadowUrl: require('@/assets/marker-shadow.png'),
   iconSize:    [25, 41],

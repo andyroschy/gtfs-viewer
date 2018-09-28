@@ -7,14 +7,41 @@
           Upload Feed
       </label>
       <input id="file-input"  type="file" @change="fileSelected" multiple/>
-      <span>{{loadStatus}}</span>
+      <span class="file-status">{{loadStatus}}</span>  
+      <div class="text-content">
+        <p id="upload-description">
+          Click on the upload feed button to upload a GTFS feed. You can choose to upload a single zip.file, or upload all the txt documents from a GTFS feed simultaneously. 
+          <b>WARNING!</b> Be sure they conform to the GTFS spec! The app does not perform validation. Also, it's only optimized for small datasets. Uploading large datasets 
+          will make the application crash... Violently. 
+        </p>
+        <p id="feature-list">
+          Features: 
+            <ul>
+              <li>Stops auto hide when zoomed out.</li>
+              <li>Clicking on stop marker displays time schedule for stop</li>
+              <li>Tree layer display of routes grouped by agency, with list of stops and visibility controll</li>
+            </ul>
+        </p>
+        <p id="feature-list"> 
+          <br>
+            <ul>
+              <li>Routes display their assigned color</li>
+              <li>Hiding routes hide their stops</li>
+              <li>Clicking on agency display it's routs, clicking on routes display it's stops</li>
+            </ul>
+        </p>
+      </div>    
+    
       <br/>
     </footer>
   </div>
 </template>
 
 <style scoped lang="scss">
- 
+  
+  .file-status {
+    float: left;
+  }
   .main {
     display: grid;
     grid-template: 
@@ -53,20 +80,41 @@
     &:active{
       background: #50b0e0; 
     }
-    
-    
   }
 
   .map {
     grid-area: main;    
   }
 
+ 
+
   footer {
     grid-area: foot;
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
+    .text-content {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      block-size: border-box;
+      margin: 0px;
+      max-height: 90%;
+      overflow: auto;      
+
+      #upload-description {
+          width: 500px;
+          text-align: justify;
+      }
+
+      #feature-list {
+        flex: 1;
+        text-align: left;
+        margin-left: 10px;
+      }
+    }
+    
+}
 
   .menu {
     grid-area: nav;

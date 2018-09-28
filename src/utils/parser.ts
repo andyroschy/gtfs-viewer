@@ -104,8 +104,7 @@ export function parseAgencies(source: string): Agency[] {
 
 function parseCsv(source: string): any[] {
     const config: ParseConfig = {
-        header: true,
-        delimiter: ',',
+        header: true        
     };
     const result =  parse(source, config);
     if (result.errors && result.errors.length > 0) {

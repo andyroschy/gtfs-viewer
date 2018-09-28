@@ -35,6 +35,9 @@
         <!-- <l-marker :lat-lng="marker" :icon="leafIcon"></l-marker>
         <l-marker v-for="stop in stops" :key="stop.id" :lat-lng="stop.coords" :icon="leafIcon"></l-marker> -->
     </l-map>
+    <input type="file" @change="fileSelected"/>
+    <span>{{loadStatus}}</span>
+    <br/>
     <span>Center:{{center}}</span>
     <span>Zoom{{zoom}}</span>
   </div>
@@ -53,12 +56,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import {LMap, LMarker, LTileLayer, LPolyline, LLayerGroup} from 'vue2-leaflet';
-import L, { LatLng } from 'leaflet';
+import L, { LatLng, imageOverlay } from 'leaflet';
 import { marker } from '@/leflet-icons';
-import { getTestFeed, parseFeed } from '@/services/feed-service';
+import { getTestFeed, parseFeed, getFeedFromFile } from '@/services/feed-service';
 import { getAgencies } from '@/services/layer-service';
 import { normalize } from 'path';
 import AgencyLayer from '@/types/agency-layer';
+import jszip from 'jszip'
 
 @Component({
   components: {
@@ -73,6 +77,7 @@ export default class Home extends Vue {
   public baseLayer: string = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
   public attribution: string = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
   public agencies: AgencyLayer[] = [];
+  public loadStatus: string = '';
 
   public alert(value: string) {
     alert(value);
@@ -82,6 +87,20 @@ export default class Home extends Vue {
     let rawFeed = getTestFeed();
     let feed = parseFeed(rawFeed);
     this.agencies = getAgencies(feed);
+  }
+
+  public fileSelected(event: any) {
+    const self = this;
+    const file = event.target.files[0];
+    this.loadStatus = 'Processing...';
+    getFeedFromFile(file).then( (feed) => {
+      self.loadStatus = 'Done!';
+      const agencies = getAgencies(feed);
+      this.agencies = [...this.agencies, ...agencies];
+    }).catch( (e) => {
+      console.error(e);
+      this.loadStatus = 'Ooops! Something went wrong when processing the file';
+    });
   }
 }
 </script>

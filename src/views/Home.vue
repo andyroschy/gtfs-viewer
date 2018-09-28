@@ -35,7 +35,7 @@
         <!-- <l-marker :lat-lng="marker" :icon="leafIcon"></l-marker>
         <l-marker v-for="stop in stops" :key="stop.id" :lat-lng="stop.coords" :icon="leafIcon"></l-marker> -->
     </l-map>
-    <input type="file" @change="fileSelected"/>
+    <input type="file" @change="fileSelected" multiple/>
     <span>{{loadStatus}}</span>
     <br/>
     <span>Center:{{center}}</span>
@@ -84,16 +84,20 @@ export default class Home extends Vue {
   }
 
   public created() {
+    const self = this;
     let rawFeed = getTestFeed();
-    let feed = parseFeed(rawFeed);
-    this.agencies = getAgencies(feed);
+    parseFeed(rawFeed).then( (feed) => {
+      self.agencies = getAgencies(feed);
+    });
   }
 
   public fileSelected(event: any) {
     const self = this;
-    const file = event.target.files[0];
+    const files: File[] = event.target.files;
+    // if only one file, assume it's a zip
+    const filesToParse = files.length === 1 ? files[0] : files;
     this.loadStatus = 'Processing...';
-    getFeedFromFile(file).then( (feed) => {
+    getFeedFromFile(filesToParse).then( (feed) => {
       self.loadStatus = 'Done!';
       const agencies = getAgencies(feed);
       this.agencies = [...this.agencies, ...agencies];

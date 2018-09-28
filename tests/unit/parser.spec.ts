@@ -57,7 +57,7 @@ describe('parser.ts', () => {
     });
 
     describe('parseStops', () => {
-        it('correctly parses sample stops', () => {
+        it('correctly parses sample stops', async (done) => {
             const controlValue1: Stop = {
                 stopId: 'FUR_CREEK_RES',
                 stopName: 'Furnace Creek Resort (Demo)',
@@ -70,14 +70,15 @@ describe('parser.ts', () => {
                 stopLat: 36.868446,
                 stopLon: -116.784582,
             };
-            const stops = parseStops(stopsTxt);
+            const stops = await parseStops(stopsTxt);
             expect(stops[0]).toMatchObject(controlValue1);
             expect(stops[1]).toMatchObject(controlValue2);
+            done();
         });
     });
 
     describe('parseRoute', () => {
-        it('correctly parses sample routes', () => {
+        it('correctly parses sample routes', async (done) => {
             const controlValue1: Route = {
                 routeId: 'AB',
                 agencyId: 'DTA',
@@ -92,14 +93,15 @@ describe('parser.ts', () => {
                 routeLongName: 'Bullfrog - Furnace Creek Resort',
                 routeType: RouteType.Bus,
             };
-            const routes = parseRoutes(routesTxt);
+            const routes = await parseRoutes(routesTxt);
             expect(routes[0]).toMatchObject(controlValue1);
             expect(routes[1]).toMatchObject(controlValue2);
+            done();
         });
     });
 
     describe('parseTrip', () => {
-        it('correctly parses trips', () => {
+        it('correctly parses trips', async (done) => {
             const controlValue1: Trip = {
                 routeId: 'AB',
                 serviceId: 'FULLW',
@@ -118,14 +120,15 @@ describe('parser.ts', () => {
                 blockId: '2',
                 shapeId: '',
             };
-            const trip = parseTrip(tripsTxt);
+            const trip = await parseTrip(tripsTxt);
             expect(trip[0]).toMatchObject(controlValue1);
             expect(trip[1]).toMatchObject(controlValue2);
+            done();
         });
     });
 
-    describe('parse stop times', () => {
-        it('correctly parses stop times', () => {
+    describe('parse stop times',  () => {
+        it('correctly parses stop times', async (done) => {
             const controlValue1: StopTime = {
                 tripId: 'STBA',
                 arrivalTime: 21600,
@@ -140,14 +143,15 @@ describe('parser.ts', () => {
                 stopId: 'BEATTY_AIRPORT',
                 stopSequence: 2,
             };
-            const stopTimes = parseStopTimes(stopTimesTxt);
+            const stopTimes = await parseStopTimes(stopTimesTxt);
             expect(stopTimes[0]).toMatchObject(controlValue1);
             expect(stopTimes[1]).toMatchObject(controlValue2);
+            done();
         });
     });
 
     describe('parse Calendar', () => {
-        it('correctly parses Calendar', () => {
+        it('correctly parses Calendar',async (done) => {
             const controlValue1: Calendar = {
                 serviceId: 'WE',
                 monday: false,
@@ -172,14 +176,15 @@ describe('parser.ts', () => {
                 startDate: new Date(2006, 7, 1),
                 endDate: new Date(2006, 7, 31),
             };
-            const calendar = parseCalendar(calendarTxt);
+            const calendar = await parseCalendar(calendarTxt);
             expect(calendar[0]).toMatchObject(controlValue1);
             expect(calendar[1]).toMatchObject(controlValue2);
+            done();
         });
     });
 
     describe('parse Shape', () => {
-        it('correctly parses Shape', () => {
+        it('correctly parses Shape', async (done) => {
             const controlValue1: Shape = {
                 shapeId: 'A_shp',
                 shapePtLat: 37.61956,
@@ -194,22 +199,24 @@ describe('parser.ts', () => {
                 shapePtSequence: 2,
                 shapeDistTraveled: 6.8310,
             };
-            const shapes = parseShapes(shapesTxt);
+            const shapes = await parseShapes(shapesTxt);
             expect(shapes[0]).toMatchObject(controlValue1);
             expect(shapes[1]).toMatchObject(controlValue2);
+            done();
         });
     });
 
     describe('parse Agency', () => {
-        it('correctly parses Agencies', () => {
+        it('correctly parses Agencies', async (done) => {
             const controlValue: Agency = {
                 agencyId: 'DTA',
                 agencyName: 'Demo Transit Authority',
                 agencyUrl: 'http://google.com',
                 agencyTimezone: 'America/Los_Angeles',
             };
-            const agency = parseShapes(agenciesTxt);
+            const agency = await parseShapes(agenciesTxt);
             expect(agency[0]).toMatchObject(controlValue);
+            done();
         });
     });
 

@@ -10,15 +10,15 @@ import { RawGtfsFeed, GtfsFeed } from '@/types/gtfs-feed';
 import jszip from 'jszip';
 import {KeyMap} from '@/types/general-types';
 
-export function parseFeed(rawFeed: RawGtfsFeed): GtfsFeed {
+export async function parseFeed(rawFeed: RawGtfsFeed): Promise<GtfsFeed> {
     // every feed entry asserted as string until i add file support
     return {
-        agencies: parseAgencies(rawFeed.agencies as string),
-        stops: parseStops(rawFeed.stops as string),
-        stopTimes: parseStopTimes(rawFeed.stopTimes as string),
-        trips: parseTrip(rawFeed.trips as string),
-        routes: parseRoutes(rawFeed.routes as string),
-        shapes: rawFeed.shapes ? parseShapes(rawFeed.shapes as string) : []
+        agencies: await parseAgencies(rawFeed.agencies),
+        stops: await parseStops(rawFeed.stops),
+        stopTimes: await parseStopTimes(rawFeed.stopTimes),
+        trips: await parseTrip(rawFeed.trips),
+        routes: await parseRoutes(rawFeed.routes),
+        shapes: rawFeed.shapes ? await parseShapes(rawFeed.shapes) : []
     }
 }
 
@@ -44,14 +44,25 @@ const fileNamesToKeys: KeyMap<RawFeedKey>  = {
     ['routes.txt'] :'routes',
 }
 
-export function getFeedFromFile(file: File): Promise<GtfsFeed> {
-    return parseFile(file).then( (f) => {
+export function getFeedFromFile(source: File | File[]): Promise<GtfsFeed> {    
+    if((source as File[]).length) {
+        let files = source as File[];        
+        const rawFeed: Partial<RawGtfsFeed> = {};
+        for (const file of files) {
+            const feedItem = fileNamesToKeys[file.name]; 
+            if(!feedItem) continue;
+            rawFeed[feedItem] = file;
+        }
+        return parseFeed(rawFeed as RawGtfsFeed);
+    }
+    return parseZip(source as File).then( (f) => {
         return parseFeed(f);
     });
 }
+       
 
 // read feed files as text and get the raw feed 
-function parseFile(file: File): Promise<RawGtfsFeed> {
+function parseZip(file: File): Promise<RawGtfsFeed> {
     const rawFeed: Partial<RawGtfsFeed> = {};
     // wrap the code in a promise so it's easier to handle asynchronity
     return new Promise<RawGtfsFeed>((resolve, reject) => {

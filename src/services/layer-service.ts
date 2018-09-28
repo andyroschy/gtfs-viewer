@@ -103,7 +103,7 @@ function reduceShapes(shapes: Shape[]): KeyMap<LatLng[]> {
             accumulated[current.shapeId] = [];
         }
         // index is one based, need to turn it to 0 based
-        accumulated[current.shapeId][current.shapePtSequence] =
+        accumulated[current.shapeId][current.shapePtSequence - 1] =
             L.latLng(current.shapePtLat, current.shapePtLon);
         return accumulated;
     }, {} as KeyMap<LatLng[]>);

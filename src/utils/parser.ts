@@ -1,7 +1,8 @@
-import { parse, ParseConfig } from 'papaparse';
+import Papa from 'papaparse';
 import { toPascalCase } from '@/utils/string-utlis';
 import { Stop, Route, Trip, StopTime,
     SecondsSinceMidnight, Calendar, Shape, Agency } from '@/types/gtfs-types';
+
 
 interface TypeMapping {
  columns: string[];
@@ -25,37 +26,38 @@ function toDate(value: string): Date {
         parseInt(value.slice(6, 8), 10));
 }
 
-function parseEntity<T>(source: string, mappers: TypeMapping[]  = []): T[] {
-
-    return parseCsv(source).map( (r) => {
-        const entity: any = {};
-        for (const column in r) {
-            if (!r.hasOwnProperty(column)) { continue; }
-            const targetColumn = toPascalCase(column);
-            const mapper = mappers.find((x) => x.columns.includes(targetColumn)) || { convert: undefined};
-            const convert  = mapper.convert || ( (v: string) => v );
-            // convert to values of types as defined in the mappers
-            entity[targetColumn] = r[column] !== undefined ? convert(r[column]) : undefined;
-        }
-        return entity;
-    });
+async function parseEntity<T>(source: string | File, mappers: TypeMapping[]  = []): Promise<T[]> {
+    return parseCsv(source).then( (parsed) => {
+        return parsed.filter( (x) => x).map( (r) => {
+            const entity: any = {};
+            for (const column in r) {
+                if (!r.hasOwnProperty(column)) { continue; }
+                const targetColumn = toPascalCase(column);
+                const mapper = mappers.find((x) => x.columns.includes(targetColumn)) || { convert: undefined};
+                const convert  = mapper.convert || ( (v: string) => v );
+                // convert to values of types as defined in the mappers
+                entity[targetColumn] = r[column] !== undefined ? convert(r[column]) : undefined;
+            }
+            return entity;
+        });
+    }) 
 }
 
-export function parseStops(source: string): Stop[]  {
+export async function parseStops(source: string | File): Promise<Stop[]>  {
    return parseEntity<Stop>(source, [{
       columns: ['stopLat', 'stopLon'],
       convert: parseFloat,
   }]);
 }
 
-export function parseRoutes(source: string): Route[]  {
+export  async function parseRoutes(source: string | File): Promise<Route[]>  {
     return parseEntity<Route>(source, [{
         columns: ['routeType'],
         convert: parseFloat,
     }]);
  }
 
-export function parseTrip(source: string): Trip[]  {
+export async function parseTrip(source: string | File): Promise<Trip[]>  {
     return parseEntity<Trip>(source, [{
         columns: ['wheelchairAccessible', 'bikesAllowed'],
         convert: (v) => parseInt(v, 10),
@@ -65,7 +67,7 @@ export function parseTrip(source: string): Trip[]  {
     }]);
  }
 
-export function parseStopTimes(source: string): StopTime[]  {
+export async function parseStopTimes(source: string | File): Promise<StopTime[]>  {
     return parseEntity<StopTime>(source, [{
         columns: ['stopSequence', 'shapeDistTraveled', 'pickupType', 'dropOffType'],
         convert: (v) => parseInt(v, 10),
@@ -78,7 +80,7 @@ export function parseStopTimes(source: string): StopTime[]  {
     }]);
  }
 
-export function parseCalendar(source: string): Calendar[]  {
+export async function parseCalendar(source: string | File): Promise<Calendar[]>  {
     return parseEntity<Calendar>(source, [{
         columns: ['startDate', 'endDate'],
         convert: toDate,
@@ -88,7 +90,7 @@ export function parseCalendar(source: string): Calendar[]  {
     }]);
  }
 
-export function parseShapes(source: string): Shape[]  {
+export async function parseShapes(source: string | File): Promise<Shape[]>  {
     return parseEntity<Shape>(source, [{
         columns: ['shapePtLat', 'shapePtLon', 'shapeDistTraveled'],
         convert: parseFloat,
@@ -98,17 +100,37 @@ export function parseShapes(source: string): Shape[]  {
     }]);
  }
 
-export function parseAgencies(source: string): Agency[] {
+export async function parseAgencies(source: string | File): Promise<Agency[]> {
      return parseEntity<Agency>(source);
  }
 
-function parseCsv(source: string): any[] {
-    const config: ParseConfig = {
-        header: true        
-    };
-    const result =  parse(source, config);
-    if (result.errors && result.errors.length > 0) {
-        console.error(result.errors);
-    }
-    return result.data;
+async function parseCsv(source: string | File): Promise<any[]> {
+    return new Promise<any[]>( (resolve, reject) => {
+        const config: Papa.ParseConfig = {
+            header: true,
+            trimHeaders: true,
+            complete: (result) => {
+                if (result.errors && result.errors.length > 0) {
+                    console.error(result.errors);
+                    for (const error of result.errors) {
+                        // remove errored rows
+                        result.data[error.row] = undefined;
+                    }
+                }
+                resolve(result.data);
+            },
+            error: (e) => {
+                reject(e);
+            }
+        };
+        // has no runtime effect, but this way the compiler won't complain
+        if(typeof source === 'string') {
+            Papa.parse(source, config);
+        }else {
+            Papa.parse(source, config);
+        }
+        
+    });
+    
+    
 }

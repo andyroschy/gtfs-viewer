@@ -3,24 +3,58 @@
     <layer-list class="menu" :agencies="agencies" ></layer-list>
     <main-map class="map" :agencies="agencies"></main-map>
     <footer>
-      <input type="file" @change="fileSelected" multiple/>
+      <label class="choose-file-button" for="file-input">
+          Upload Feed
+      </label>
+      <input id="file-input"  type="file" @change="fileSelected" multiple/>
       <span>{{loadStatus}}</span>
       <br/>
     </footer>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
  
   .main {
     display: grid;
     grid-template: 
                   "nav  main" 1fr 
-                  "nav  foot " 100px 
+                  "nav  foot " 120px 
                  / 330px 1fr;
     grid-gap: 0px;
     padding: 0px;
     height: 100%;
+  }
+
+  #file-input{
+    display: none;
+  }
+  .choose-file-button {
+    float: left;
+    border: none;
+    background: #66ccff; 
+    text-shadow: 1px 1px rgba(0,0,0, 0.4); 
+    color: #EEEEEE;
+    border-radius: 100px;
+    word-wrap: initial;
+    white-space: nowrap;
+    line-height: 90px;
+    margin-left: 10px;
+    height: 95px; 
+    width: 95px;
+    cursor: pointer;    
+    box-shadow: 
+      0 5px 10px -2px rgba(0,0,0,.2), 
+      0 5px 10px 0 rgba(0,0,0,.14), 
+      0 5px 10px 0 rgba(0,0,0,.12);
+    &:hover{
+      background: #55bbee; 
+    }
+    &:active{
+      background: #50b0e0; 
+    }
+    
+    
   }
 
   .map {
@@ -28,7 +62,10 @@
   }
 
   footer {
-    grid-area: foot
+    grid-area: foot;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 
   .menu {

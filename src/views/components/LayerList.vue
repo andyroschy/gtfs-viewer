@@ -10,8 +10,9 @@
           <span @click="toggleLayer(agency)"  class="layer-name" >{{agency.name}} </span>     
           <!-- routes of the agency -->
           <ul class="inner" :class="{'open': agency.isOpen}" >            
-            <li class="sub-menu-header">Routes:</li>            
+            <li class="sub-menu-header route-header">Routes:</li>                                            
             <li   v-for="route of agency.routes" :key="route.id">
+              <span class="route-marker" :style="{'background-color': '#'+route.color}"></span>
               <input type="checkbox" v-model="route.visible" :disabled="!agency.visible" >              
               <span @click="toggleLayer(route)" class="layer-name" >{{route.name}}</span>
               <!-- stops on the route -->
@@ -48,9 +49,6 @@
       0 1px 2px 0 rgba(0,0,0,.12);
   }
 
-  .layer-list {
- 
-  }
 
   .layer-group {
     display: flex;
@@ -69,6 +67,15 @@
       overflow: auto;
       padding-left: 15px;
       list-style: none;
+      .route-marker{
+        display: inline-block;        
+        vertical-align: text-top;
+        height: 10px;
+        width: 10px;        
+        border: 1px;
+        border-style: solid;
+        border-width: 1px;
+      }
       span.layer-name {
         cursor: pointer;
       }

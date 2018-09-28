@@ -32,7 +32,11 @@
                       :visible="stop.visible"
                       :lat-lng="stop.latlng"
                       :icon="markerIcon"
-                      @click="stopClicked(stop.name)" />
+                       >
+                        <l-popup  >
+                          {{ stop.name }}
+                        </l-popup>
+                      </l-marker>
                  </l-layer-group>
            
           </l-layer-group>
@@ -52,19 +56,19 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import {LMap, LMarker, LTileLayer, LPolyline, LLayerGroup} from 'vue2-leaflet';
+import {LMap, LMarker, LTileLayer, LPolyline, LLayerGroup, LPopup} from 'vue2-leaflet';
 import L, { LatLng, imageOverlay } from 'leaflet';
 import { marker } from '@/leflet-icons';
 import { getTestFeed, parseFeed, getFeedFromFile } from '@/services/feed-service';
 import { getAgencies } from '@/services/layer-service';
 import { normalize } from 'path';
 import AgencyLayer from '@/types/agency-layer';
-import { debug, debuglog } from 'util';
+
 
 
 @Component({
   components: {
-    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup
+    LMap, LMarker, LTileLayer, LPolyline, LLayerGroup, LPopup 
   },
 })
 export default class MainMap extends Vue {

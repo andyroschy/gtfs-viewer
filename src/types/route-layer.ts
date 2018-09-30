@@ -18,8 +18,7 @@ export default class RouteLayer extends GtfsLayer {
         // filter trips that include the stop,
         // get their stop times as a single array and sorted by arrival time
         return this.trips
-                    .filter( (trip) => trip.stops.includes(stop))                    
-                    .map( (trip) => trip.stopTimes) 
+                    .map( (trip) => trip.stopTimes.filter( (st) => st.stopId == stop.id)) 
                     .reduce( (accc, current) => {
                         accc.push(...current);
                         return accc;
